@@ -1,0 +1,39 @@
+{
+  "name": "but-web",
+  "version": "1.0.0",
+  "description": "but-web package.json",
+  "main": "main.js",
+  "dependencies": {
+    "babel-core": "^6.8.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "bootstrap": "^3.3.6",
+    "material-ui": "^0.15.0",
+    "parse-react": "^0.5.2",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.1",
+    "react-tap-event-plugin": "^1.0.0",
+    "uniq": "^1.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "but"
+  ],
+  "author": "Hernando de Sá Silva",
+  "license": "ISC",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
+    ]
+  }
+}
