@@ -1,6 +1,6 @@
 {
   "name": "but-web",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "but-web package.json",
   "main": "main.js",
   "dependencies": {
@@ -35,5 +35,13 @@
         }
       ]
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hrss/but-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hrss/but-web/issues"
+  },
+  "homepage": "https://github.com/hrss/but-web#readme"
 }

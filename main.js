@@ -2,18 +2,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Parse = require('parse');
-var ParseReact = require('parse-react');
 var $ = require("jquery");
 global.jQuery = $;
 require('bootstrap');
 window.$ = $;
 window.jQuery = $;
 window.jquery = $;
+window.React = React;
 
 var ids = window.location.href.split('?');
 
-var fbId = ids[1];
-var id = ids[0];
+ids = ids[1].split('&');
+
+var fbId = ids[1].split('=')[1];
+var id = ids[0].split('=')[1];
+
+var reviews = [];
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -26,11 +30,41 @@ injectTapEventPlugin();
 
 const App = () => (
   <MuiThemeProvider muiTheme={getMuiTheme()}>
-    <MyAwesomeReactComponent />
+    <MyAwesomeReactComponent data = {reviews}/>
   </MuiThemeProvider>
 );
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('reviewCard')
-);
+Parse.Cloud.run('getPublicReviewsIds', { id: id }).then(function(receivedIds) {
+  var it = 0;
+  var receivedIdsLength = Object.keys(receivedIds).length;
+
+  for (var key in receivedIds) {
+    Parse.Cloud.run('getReviewQuotes', {id: receivedIds[key]}).then(function(quotes){
+      var review = {};
+      review.goodQuotes = [];
+      review.badQuotes = [];
+      var i;
+      for (i = 0; i < quotes.length; i++) {
+        if(quotes[i].get("goodOrBad")) {
+          var webQuote = {id: quotes[i].id, quote: quotes[i].get("quote")};
+          review.goodQuotes.push(webQuote);
+        } else {
+          var webQuote = {id: quotes[i].id, quote: quotes[i].get("quote")};
+          review.badQuotes.push(webQuote);
+        }
+      }
+      review.id = key;
+      reviews.push(review);
+      it++;
+    }).then(function(){
+      if (it == receivedIdsLength){
+        ReactDOM.render(
+          <App/>,
+          document.getElementById('reviewCard')
+        );
+      }
+    });
+  }
+
+
+});

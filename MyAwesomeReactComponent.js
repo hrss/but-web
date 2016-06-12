@@ -3,7 +3,6 @@ import Card from 'material-ui/Card';
 import CardHeader from 'material-ui/Card/CardHeader';
 import CardText from 'material-ui/Card/CardText';
 import Parse from 'parse';
-import ParseReact from 'parse-react';
 
 var Carousel = require('nuka-carousel');
 
@@ -139,83 +138,83 @@ var QuoteText = React.createClass({
   }
 });
 
+const ButCard = React.createClass({
+  render: function() {
+    return (
+    <Card>
+      <CardHeader title={this.props.title}></CardHeader>
+      <CardText>
+        <div>
+          <SimpleSlider goodQuotes = {this.props.goodQuotes} badQuotes = {this.props.badQuotes}/>
+        </div>
+      </CardText>
+    </Card>
+    );
+  }
+});
+
+var CardsList = React.createClass({
+  render: function() {
+    var cards = this.props.data.map(function(review) {
+      return (
+        <li key={review.id}>
+          <ButCard  title = {"Hernando de Sá Silva"} badQuotes={review.badQuotes} goodQuotes={review.goodQuotes}/>
+        </li>
+      );
+    });
+    return (
+      <ul>
+        {cards}
+      </ul>
+    );
+  }
+});
+
+var QuotesList = React.createClass({
+  render: function() {
+    var quotes = this.props.data.map(function(incomingQuote) {
+      return (
+        <QuoteText key = {incomingQuote.id} quote = {incomingQuote.quote}/>
+      );
+    });
+    return (
+      <div>
+        {quotes}
+      </div>
+    );
+  }
+});
+
+
 
 var SimpleSlider = React.createClass({
   render: function () {
 
     return (
       <div>
-      <Carousel decorators ={Decorators}>
-        <QuoteText quote="the xx"/>
-        <QuoteText quote="intro"/>
-      </Carousel>
-      <div>
-        <p>But</p>
-      </div>
-      <Carousel decorators ={Decorators}>
-       <BadQuotesList/>
-      </Carousel>
+        <Carousel decorators ={Decorators}>
+          <QuotesList data = {this.props.badQuotes} />
+        </Carousel>
+        <div>
+          <p>But</p>
+        </div>
+        <Carousel decorators ={Decorators}>
+          <QuotesList data = {this.props.goodQuotes} />
+        </Carousel>
       </div>
     );
   }
 });
 
 
-var GoodQuotesList = React.createClass({
-  mixins: [ParseReact.Mixin],
+const MyAwesomeReactComponent = React.createClass ({
 
   render: function() {
-    var quoteNodes = this.props.data.map(function(parseQuote) {
-      return (
-        <QuoteText quote={parseQuote.quote}/>
-      );
-    });
-    return (
-      <div className="quotesList">
-        {quoteNodes}
-      </div>
+    return(
+      <CardsList data = {this.props.data}/>
     );
   }
 });
 
-var BadQuotesList = React.createClass({
-  mixins: [ParseReact.Mixin],
-
-  observe: function() {
-    // Subscribe to all Comment objects, ordered by creation date
-    // The results will be available at this.data.comments
-
-    var query = new Parse.Query('Quote').ascending('createdAt');
-    query.equalTo("goodOrBad", true);
-    return {
-      quotes: query
-    };
-  },
-
-  render: function() {
-    var quoteNodes = this.data.quotes.map(function(parseQuote) {
-      return (
-        <QuoteText quote={parseQuote.quote}/>
-      );
-    });
-    return (
-      <div className="quotesList">
-        {quoteNodes}
-      </div>
-    );
-
-  }
-});
-
-const MyAwesomeReactComponent = () => (
-  <Card>
-    <CardHeader title="blajkdsjkljf"></CardHeader>
-    <CardText>
-      <div>
-        <SimpleSlider/>
-      </div>
-    </CardText>
-  </Card>
-);
 
 export default MyAwesomeReactComponent;
