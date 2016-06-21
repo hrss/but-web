@@ -53,11 +53,13 @@ Parse.Cloud.run('getPublicReviewsIds', { id: id }).then(function(receivedIds) {
           review.badQuotes.push(webQuote);
         }
       }
-      review.id = key;
       reviews.push(review);
       it++;
     }).then(function(){
       if (it == receivedIdsLength){
+        for (var key in reviews) {
+          reviews[key].id = receivedIds[key];
+        }
         ReactDOM.render(
           <App/>,
           document.getElementById('reviewCard')

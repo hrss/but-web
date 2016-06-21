@@ -158,10 +158,16 @@ var CardsList = _react2.default.createClass({
   displayName: 'CardsList',
 
   render: function render() {
+    var ulStyle = {
+      listStyleType: 'none' // 'ms' is the only lowercase vendor prefix
+    };
     var cards = this.props.data.map(function (review) {
-      return _react2.default.createElement('li', { key: review.id }, _react2.default.createElement(ButCard, { title: "Hernando de Sá Silva", badQuotes: review.badQuotes, goodQuotes: review.goodQuotes }));
+      var liStyle = {
+        marginTop: '25px'
+      };
+      return _react2.default.createElement('li', { key: review.id, style: liStyle }, _react2.default.createElement(ButCard, { title: "Hernando de Sá Silva", badQuotes: review.badQuotes, goodQuotes: review.goodQuotes }));
     });
-    return _react2.default.createElement('ul', null, cards);
+    return _react2.default.createElement('ul', { style: ulStyle }, cards);
   }
 });
 
@@ -172,7 +178,7 @@ var QuotesList = _react2.default.createClass({
     var quotes = this.props.data.map(function (incomingQuote) {
       return _react2.default.createElement(QuoteText, { key: incomingQuote.id, quote: incomingQuote.quote });
     });
-    return _react2.default.createElement('div', null, quotes);
+    return _react2.default.createElement(Carousel, { decorators: Decorators }, quotes);
   }
 });
 
@@ -181,7 +187,7 @@ var SimpleSlider = _react2.default.createClass({
 
   render: function render() {
 
-    return _react2.default.createElement('div', null, _react2.default.createElement(Carousel, { decorators: Decorators }, _react2.default.createElement(QuotesList, { data: this.props.badQuotes })), _react2.default.createElement('div', null, _react2.default.createElement('p', null, 'But')), _react2.default.createElement(Carousel, { decorators: Decorators }, _react2.default.createElement(QuotesList, { data: this.props.goodQuotes })));
+    return _react2.default.createElement('div', null, _react2.default.createElement(QuotesList, { data: this.props.badQuotes }), _react2.default.createElement('div', null, _react2.default.createElement('p', null, 'But')), _react2.default.createElement(QuotesList, { data: this.props.goodQuotes }));
   }
 });
 
@@ -265,11 +271,13 @@ Parse.Cloud.run('getPublicReviewsIds', { id: id }).then(function (receivedIds) {
           review.badQuotes.push(webQuote);
         }
       }
-      review.id = key;
       reviews.push(review);
       it++;
     }).then(function () {
       if (it == receivedIdsLength) {
+        for (var key in reviews) {
+          reviews[key].id = receivedIds[key];
+        }
         ReactDOM.render(React.createElement(App, null), document.getElementById('reviewCard'));
       }
     });

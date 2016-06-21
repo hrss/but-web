@@ -155,15 +155,21 @@ const ButCard = React.createClass({
 
 var CardsList = React.createClass({
   render: function() {
+    var ulStyle = {
+      listStyleType: 'none' // 'ms' is the only lowercase vendor prefix
+    };
     var cards = this.props.data.map(function(review) {
+      var liStyle = {
+        marginTop: '25px'
+      };
       return (
-        <li key={review.id}>
+        <li key={review.id} style = {liStyle}>
           <ButCard  title = {"Hernando de Sá Silva"} badQuotes={review.badQuotes} goodQuotes={review.goodQuotes}/>
         </li>
       );
     });
     return (
-      <ul>
+      <ul style={ulStyle}>
         {cards}
       </ul>
     );
@@ -178,9 +184,9 @@ var QuotesList = React.createClass({
       );
     });
     return (
-      <div>
+      <Carousel decorators ={Decorators}>
         {quotes}
-      </div>
+      </Carousel>
     );
   }
 });
@@ -192,15 +198,13 @@ var SimpleSlider = React.createClass({
 
     return (
       <div>
-        <Carousel decorators ={Decorators}>
+
           <QuotesList data = {this.props.badQuotes} />
-        </Carousel>
+
         <div>
           <p>But</p>
         </div>
-        <Carousel decorators ={Decorators}>
           <QuotesList data = {this.props.goodQuotes} />
-        </Carousel>
       </div>
     );
   }
