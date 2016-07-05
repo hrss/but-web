@@ -16,10 +16,22 @@ body {
 /*
  * Global add-ons
  */
+.navbar-inverse .navbar-toggle {
+  border-color: #2E7D32!important;
+  background-color: #2E7D32!important;
+}
 
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #2E7D32;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #fefefe;
 }
 
 /*
