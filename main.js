@@ -16,6 +16,23 @@ ids = ids[1].split('&');
 
 var fbId = ids[1].split('=')[1];
 var id = ids[0].split('=')[1];
+var name;
+
+document.getElementById('profile-pic').src = "http://graph.facebook.com/"+ fbId +"/picture?type=large"
+
+var User = Parse.Object.extend("_User");
+var query = new Parse.Query(User);
+query.get(id, {
+  success: function(user) {
+    name = user.get('realName');
+    document.getElementById('user-name').innerHTML = name;
+    document.getElementById('page-header').innerHTML = name.split(" ")[0] + "\'s reviews";
+  },
+  error: function(object, error) {
+    // The object was not retrieved successfully.
+    // error is a Parse.Error with an error code and message.
+  }
+});
 
 var reviews = [];
 
@@ -53,6 +70,7 @@ Parse.Cloud.run('getPublicReviewsIds', { id: id }).then(function(receivedIds) {
           review.badQuotes.push(webQuote);
         }
       }
+      review.name = name;
       reviews.push(review);
       it++;
     }).then(function(){
@@ -67,6 +85,4 @@ Parse.Cloud.run('getPublicReviewsIds', { id: id }).then(function(receivedIds) {
       }
     });
   }
-
-
 });
