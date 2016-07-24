@@ -14,7 +14,7 @@ Parse.initialize("TFkqT4mJlrzRnBqFuEK06HgmYdHo6ClvT8uqLrM5", "dJv0yvlyByY4b9pfI8
           return (
             <button
               style={this.getButtonStyles(this.props.currentSlide === 0)}
-              onClick={this.handleClick}><img src="ic_navigate_before_black_24dp_1x.png"/>
+              onClick={this.handleClick}><img src="images/ic_navigate_before_black_24dp_1x.png"/>
             </button>
           )
         },
@@ -42,7 +42,7 @@ Parse.initialize("TFkqT4mJlrzRnBqFuEK06HgmYdHo6ClvT8uqLrM5", "dJv0yvlyByY4b9pfI8
           return (
             <button
               style={this.getButtonStyles(this.props.currentSlide + this.props.slidesToScroll >= this.props.slideCount)}
-              onClick={this.handleClick}><img src="ic_navigate_next_black_24dp_1x.png"/>
+              onClick={this.handleClick}><img src="images/ic_navigate_next_black_24dp_1x.png"/>
             </button>
           )
         },
